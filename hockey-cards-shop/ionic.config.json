@@ -1,0 +1,7 @@
+{
+  "name": "hockey-cards-shop",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

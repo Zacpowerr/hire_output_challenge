@@ -1,0 +1,75 @@
+<ion-content>
+
+  <ion-row class="ion-justify-content-center">
+    <form [formGroup]="orderForm" (submit)="onSubmit()">
+      <!-- User info card -->
+      <ion-card class="ion-no-margin ion-margin-bottom">
+        <ion-card-header>
+          <ion-card-title class="ion-text-center">
+            <img src="https://hireoutput.com/images/output-colour-light-tagline.svg" alt="Logo">
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-item>
+            <ion-label>First name</ion-label>
+            <ion-input input="text" placeholder="First name" formControlName="first_name" value="first_name">
+            </ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Last name</ion-label>
+            <ion-input type="text" placeholder="Last name" formControlName="last_name" value="last_name"></ion-input>
+          </ion-item>
+          <ion-item>
+            <ion-label>Email</ion-label>
+            <ion-input type="email" placeholder="Email" formControlName="email" value="email"></ion-input>
+          </ion-item>
+
+          <div formArrayName="cards" class="ion-margin-top">
+            <ion-row *ngFor="let c of orderForm.controls.cards['controls']; let i = index" [formGroup]="c">
+              <ion-col size="4">
+                <ion-list>
+                  <ion-item>
+                    <ion-label for="name">Card</ion-label>
+                    <ion-input name="filter" (ionInput)="onType($event)" placeholder="Search"></ion-input>
+                    <ion-select formControlName="name">
+                      <ion-select-option compareWith="compareWith" *ngFor="let player of filteredPlayers"
+                        [value]="player.name">
+                        {{player.name}}</ion-select-option>
+                    </ion-select>
+                  </ion-item>
+                </ion-list>
+              </ion-col>
+              <ion-col size="4">
+                <ion-label>Quantity</ion-label>
+                <ion-input type="number" formControlName="quantity" placeholder="Quantity"
+                  (ionInput)="getSubtotal($event,c)"></ion-input>
+              </ion-col>
+              <ion-col size="3">
+                <ion-label>Subtotal</ion-label>
+                <ion-input readonly type="text" formControlName="subtotal">$</ion-input>
+              </ion-col>
+              <ion-col size="1" class="ion-align-self-center text-align-center">
+                <div class="ion-margin-horizontal" style="font-size: 20px; cursor: pointer;" (click)="removeCard(i)">
+                  <ion-icon name="trash-outline"></ion-icon>
+                </div>
+              </ion-col>
+            </ion-row>
+          </div>
+        </ion-card-content>
+
+        <div class="ion-text-center">
+          <ion-button class="ion-margin" (click)="addCard()">Add another item</ion-button>
+        </div>
+      </ion-card>
+      <!-- END Order info card -->
+      <div class="ion-margin-vertical">
+        <ion-input readonly type="text" formControlName="total">Total: $</ion-input>
+      </div>
+      <div class="ion-margin-vertical">
+        <ion-button type="submit" size="block" [disabled]="!orderForm.valid">Create Invoice</ion-button>
+        <ion-note *ngIf="!orderForm.valid && orderForm.dirty" color="danger">To create a invoice you need at least one
+          card</ion-note>
+      </div>
+    </form>
+  </ion-row>
+</ion-content>

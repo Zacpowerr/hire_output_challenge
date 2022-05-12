@@ -1,0 +1,14 @@
+Users
+    - key_doc:String
+    - first_name:String
+    - last_name:String
+    - email:String
+
+Orders
+    - key_doc:String
+    - cards: Array
+        - name:String
+        - quantity:Number
+        - subtotal:Number
+    - total:Number
+    - user_key_doc:String
